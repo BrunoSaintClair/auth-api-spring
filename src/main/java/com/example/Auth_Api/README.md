@@ -1,9 +1,14 @@
 # Resumo básico da utilização do SpringSecurity nessa aplicação
 
+## Fluxo da aplicação
 
-## Fluxos da aplicação
+Quando a aplicação é iniciada, o Spring Boot sobe o contexto da aplicação e carrega todos os Beans definidos com @Service, @Component, @Repository e @Configuration.
 
-----------
+1. O Spring Security carrega a configuração da segurança definida na classe SecurityConfiguration.
+2. Quando uma requisição chega à aplicação, ela primeiro passa pelo SecurityFilter, que foi registrado na SecurityConfiguration.
+3. Após passar pelo SecurityFilter, a requisição segue para o Controller apropriado.
+
+---
 
 ### Entidade User
 
@@ -16,11 +21,15 @@ Necessita implementar a interface UserDetails e todos os seus métodos.
 ```isCredentialsNonExpired()```: indica se as credenciais(senha) expiraram. 
 ```isEnabled()```: indica se o usuário está ativo.
 
+---
+
 ### AuthService
 
 Necessita implementar UserDetailsService e o método loadUserByUsername.
 
 ```loadUserByUsername()```: O Spring usa essa função para buscar um usuário no banco de dados pelo seu nome de usuário.
+
+---
 
 ### TokenService
 
@@ -28,6 +37,8 @@ Necessita conter o atributo que irá conter a chave secreta utilizada para cript
 
 ```generateToken(User user)```: retorna o token JWT criado.
 ```validateToken(String token)```: utiliza o mesmo algoritmo e a mesma chave secreta utilizados na criação para validar se o token existe e não expirou.
+
+---
 
 ### SecurityConfiguration
 
@@ -43,6 +54,8 @@ Define regras de segurança para os endpoints da Api. Retorna um SecurityFilterC
 ```authenticationManager(AuthenticationConfiguration authenticationConfiguration)```: esse método cria um AuthenticationManager, que é o responsável por autenticar os usuários no Spring Security.
 
 ```passwordEncoder()```: define um PasswordEncoder, que é responsável por criptografar senhas antes de armazená-las no banco de dados.
+
+---
 
 ### SecurityFilter
 
