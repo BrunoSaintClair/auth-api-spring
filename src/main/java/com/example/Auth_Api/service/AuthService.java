@@ -30,8 +30,11 @@ public class AuthService implements UserDetailsService {
         }
 
         String password = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.email(), password, data.role());
 
-        return userRepository.save(newUser);
+        if (data.role() == null) {
+            return userRepository.save(new User(data.email(), password));
+        }
+
+        return userRepository.save(new User(data.email(), password, data.role()));
     }
 }
