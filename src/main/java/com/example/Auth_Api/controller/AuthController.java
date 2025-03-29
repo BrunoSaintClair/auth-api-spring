@@ -34,14 +34,14 @@ public class AuthController {
         var emailAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = authenticationManager.authenticate(emailAndPassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        LoginResponseDto loginResponse = new LoginResponseDto(token);
+        LoginResponseDto loginResponse = new LoginResponseDto(token, 7200,"Bearer");
         return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterDto data){
         var user = authService.register(data);
-        RegisterResponseDto userResponse = new RegisterResponseDto(user.getEmail());
-        return ResponseEntity.ok(userResponse); // mudar para created
+        RegisterResponseDto userResponse = new RegisterResponseDto(user.getId(), "User created successfully");
+        return ResponseEntity.ok(userResponse);
     }
 }
