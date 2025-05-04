@@ -1,4 +1,4 @@
 package com.example.Auth_Api.dto;
 
-public record RegisterResponseDto(Long id, String message) {
+public record RegisterResponseDto(Long id, String message, String username) {
 }
