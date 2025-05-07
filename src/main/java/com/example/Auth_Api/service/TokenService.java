@@ -24,7 +24,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getEmail())
-                    .withExpiresAt(this.getExpirationTime())
+                    .withExpiresAt(this.setExpirationTime())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Error generating token. Exception message: " + exception.getMessage());
@@ -44,7 +44,7 @@ public class TokenService {
         }
     }
 
-    private Instant getExpirationTime(){
+    private Instant setExpirationTime(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
